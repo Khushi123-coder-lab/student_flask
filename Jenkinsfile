@@ -10,38 +10,38 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                bat 'pip install -r requirements.txt'
             }
         }
 
         stage('Test Application') {
             steps {
-                sh 'python -m py_compile app.py'
+                bat 'python -m py_compile app.py'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t student-flask-app .'
+                bat 'docker build -t student-flask-app .'
             }
         }
 
         stage('Stop Old Container') {
             steps {
-                sh 'docker stop student-app || true'
-                sh 'docker rm student-app || true'
+                bat 'docker stop student-app >nul 2>&1 || exit /b 0'
+                bat 'docker rm student-app >nul 2>&1 || exit /b 0'
             }
         }
 
         stage('Deploy Application') {
             steps {
-                sh 'docker run -d -p 5000:5000 --name student-app student-flask-app'
+                bat 'docker run -d -p 5000:5000 --name student-app student-flask-app'
             }
         }
 
         stage('Verify Deployment') {
             steps {
-                sh 'docker ps'
+                bat 'docker ps'
             }
         }
     }
