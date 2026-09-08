@@ -19,16 +19,16 @@ jobs:
           python-version: "3.11"
 
       - name: Install Dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirement.txt
 
       - name: Test Application
         run: python -m py_compile app.py
 
       - name: Build Docker Image
-        run: docker build -t student-flask-app .
+        run: docker build -t student_flask .
 
       - name: Run Docker Container
-        run: docker run -d -p 5000:5000 --name student-app student-flask-app
+        run: docker run -d -p 5000:5000 --name student-app student_flask
 
       - name: Verify Container
         run: docker ps
